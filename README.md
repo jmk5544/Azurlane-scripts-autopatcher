@@ -1,5 +1,5 @@
 # Azurlane-scripts-autopatcher
-A tool to automatically modify *Azurlane scripts* and generate several modified scripts, a.k.a *modded scripts* which can be used to play the game in *easier* and *illegal* way.
+A tool to automatically modify *Azurlane scripts* and generate several modified scripts, a.k.a *modded scripts* to obtain unfair gameplay.
 
 ## Download
 You can grab the binary from the [releases page](https://github.com/k0np4ku/Azurlane-scripts-autopatcher/releases), also take a look at [Azurlane-LuaHelper](https://github.com/k0np4ku/Azurlane-LuaHelper) if you want to do it **manually**.
