@@ -1,11 +1,22 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace Azurlane
 {
     public static class Write
     {
-        public static void Rewrite(string path, string pattern, string replacement) => File.WriteAllText(path, Regex.Replace(File.ReadAllText(path), pattern, replacement));
+        public static void Rewrite(string path, string pattern, string replacement)
+        {
+            try
+            {
+                File.WriteAllText(path, Regex.Replace(File.ReadAllText(path), pattern, replacement));
+            }
+            catch (Exception e)
+            {
+                Console.Write("<exception-detected>");
+            }
+        }
 
         public static void GodMode(string lua)
         {

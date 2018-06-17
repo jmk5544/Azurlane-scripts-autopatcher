@@ -76,7 +76,7 @@ namespace Azurlane
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.Write("<exception-detected>");
             }
         }
 

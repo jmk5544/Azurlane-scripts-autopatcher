@@ -19,6 +19,9 @@ namespace Azurlane
         [STAThread]
         private static void Main(string[] args)
         {
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+
             if (args.Length > 1)
             {
                 Console.WriteLine(@"Invalid argument, usage: Azurlane.exe <path-to-scripts>");
@@ -75,17 +78,24 @@ namespace Azurlane
                 listOfMod[i] = string.Format("{0}-{1}", fileName, listOfMod[i]);
 
             if (File.Exists(PathMgr.Temp(fileName)))
-                    File.Delete(PathMgr.Temp(fileName));
+                File.Delete(PathMgr.Temp(fileName));
 
             if (Directory.Exists(Path.Combine(PathMgr.Temp("Unity_Assets_Files"), fileName)))
                 Utils.DeleteDirectory(Path.Combine(PathMgr.Temp("Unity_Assets_Files"), fileName));
 
             foreach (var mod in listOfMod)
             {
-                if (File.Exists(PathMgr.Temp(mod)))
-                    File.Delete(PathMgr.Temp(mod));
-                if (Directory.Exists(Path.Combine(PathMgr.Temp("Unity_Assets_Files"), mod)))
-                    Utils.DeleteDirectory(Path.Combine(PathMgr.Temp("Unity_Assets_Files"), mod));
+                try
+                {
+                    if (File.Exists(PathMgr.Temp(mod)))
+                        File.Delete(PathMgr.Temp(mod));
+                    if (Directory.Exists(Path.Combine(PathMgr.Temp("Unity_Assets_Files"), mod)))
+                        Utils.DeleteDirectory(Path.Combine(PathMgr.Temp("Unity_Assets_Files"), mod));
+                }
+                catch (Exception e)
+                {
+                    Console.Write("<exception-detected>");
+                }
             }
 
             try
@@ -124,10 +134,17 @@ namespace Azurlane
                 {
                     Console.Write($"...{index}/{listOfMod.Length}");
 
-                    if (!Directory.Exists(PathMgr.Lua(mod)))
-                        Directory.CreateDirectory(PathMgr.Lua(mod));
-                    foreach (var file in Directory.GetFiles(PathMgr.Lua(fileName), "*.*", SearchOption.AllDirectories))
-                        File.Copy(file, PathMgr.Lua(mod, Path.GetFileName(file)), true);
+                    try
+                    {
+                        if (!Directory.Exists(PathMgr.Lua(mod)))
+                            Directory.CreateDirectory(PathMgr.Lua(mod));
+                        foreach (var file in Directory.GetFiles(PathMgr.Lua(fileName), "*.*", SearchOption.AllDirectories))
+                            File.Copy(file, PathMgr.Lua(mod, Path.GetFileName(file)), true);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.Write("<exception-detected>");
+                    }
                     File.Copy(PathMgr.Temp(fileName), PathMgr.Temp(mod), true);
 
                     if (index == listOfMod.Length)
@@ -224,10 +241,17 @@ namespace Azurlane
                 {
                     Console.Write($"...{index}/{listOfMod.Length}");
 
-                    if (File.Exists(Path.Combine(filePath, mod)))
-                        File.Delete(Path.Combine(filePath, mod));
+                    try
+                    {
+                        if (File.Exists(Path.Combine(filePath, mod)))
+                            File.Delete(Path.Combine(filePath, mod));
 
-                    File.Copy(PathMgr.Temp(mod), Path.Combine(filePath, mod), true);
+                        File.Copy(PathMgr.Temp(mod), Path.Combine(filePath, mod), true);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.Write("<exception-detected>");
+                    }
 
                     if (index == listOfMod.Length)
                         Console.Write("...<done>");
@@ -249,14 +273,19 @@ namespace Azurlane
 
                 foreach (var mod in listOfMod)
                 {
-                    if (File.Exists(PathMgr.Temp(mod)))
-                        File.Delete(PathMgr.Temp(mod));
-                    if (Directory.Exists(Path.Combine(PathMgr.Temp("Unity_Assets_Files"), mod)))
-                        Utils.DeleteDirectory(Path.Combine(PathMgr.Temp("Unity_Assets_Files"), mod));
+                    try
+                    {
+                        if (File.Exists(PathMgr.Temp(mod)))
+                            File.Delete(PathMgr.Temp(mod));
+                        if (Directory.Exists(Path.Combine(PathMgr.Temp("Unity_Assets_Files"), mod)))
+                            Utils.DeleteDirectory(Path.Combine(PathMgr.Temp("Unity_Assets_Files"), mod));
+                    }
+                    catch (Exception e)
+                    {
+                        Console.Write("<exception-detected>");
+                    }
                 }
-
-                Console.WriteLine();
-                Console.WriteLine("Everything is ok, we're done.");
+                
                 Console.WriteLine("Press any key to exit.");
                 Console.ReadLine();
             }
