@@ -128,7 +128,7 @@ namespace Azurlane
                         Directory.CreateDirectory(PathMgr.Lua(mod));
                     foreach (var file in Directory.GetFiles(PathMgr.Lua(fileName), "*.*", SearchOption.AllDirectories))
                         File.Copy(file, PathMgr.Lua(mod, Path.GetFileName(file)), true);
-                    File.Copy(PathMgr.Temp(fileName), PathMgr.Temp(mod));
+                    File.Copy(PathMgr.Temp(fileName), PathMgr.Temp(mod), true);
 
                     if (index == listOfMod.Length)
                         Console.Write("...<done>");
@@ -223,6 +223,9 @@ namespace Azurlane
                 foreach (var mod in listOfMod)
                 {
                     Console.Write($"...{index}/{listOfMod.Length}");
+
+                    if (File.Exists(Path.Combine(filePath, mod)))
+                        File.Delete(Path.Combine(filePath, mod));
 
                     File.Copy(PathMgr.Temp(mod), Path.Combine(filePath, mod), true);
 
